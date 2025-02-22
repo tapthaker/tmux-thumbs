@@ -67,7 +67,7 @@ for archive_type in $ARCHIVE_TYPES; do
       exit 1
       ;;
   esac
-  sha256sum "$ARCHIVE_FILE" > "$ARCHIVE_FILE".sha256
+  shasum -a 256 "$ARCHIVE_FILE" > "$ARCHIVE_FILE".sha256
   ARTIFACTS+=("$ARCHIVE_FILE")
   ARTIFACTS+=("$ARCHIVE_FILE".sha256)
 done
