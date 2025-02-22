@@ -25,7 +25,6 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Compile and release
-        uses: ./.github/actions/rust-build-and-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUSTTARGET: ${{ matrix.target }}
@@ -33,3 +32,6 @@ jobs:
           BINARY_NAMES: "tmux-thumbs thumbs"
           ARCHIVE_TYPES: ${{ matrix.archive }}
           ARTIFACT_PREFIX: tmux-thumbs
+        run: |
+          ./build-package-release.sh
+
