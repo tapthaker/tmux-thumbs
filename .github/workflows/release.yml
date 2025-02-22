@@ -8,21 +8,28 @@ on:
 jobs:
   release:
     name: release ${{ matrix.target }}
-    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         include:
           - target: x86_64-unknown-linux-musl
             archive: tar.gz tar.xz
+            os: ubuntu-latest
+          - target: aarch-apple-darwin
+            archive: zip
+            os: macos-latest
           - target: x86_64-apple-darwin
             archive: zip
+            os: macos-latest
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@master
       - name: Compile and release
-        uses: rust-build/rust-build.action@v1.4.0
+        uses: ./.github/actions/rust-build-and-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUSTTARGET: ${{ matrix.target }}
           EXTRA_FILES: "tmux-thumbs.sh tmux-thumbs.tmux tmux-thumbs-install.sh"
+          BINARY_NAMES: "tmux-thumbs thumbs"
           ARCHIVE_TYPES: ${{ matrix.archive }}
+          ARTIFACT_PREFIX: tmux-thumbs
