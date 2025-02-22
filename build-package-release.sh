@@ -2,6 +2,7 @@
 set -e
 
 echo "Building release binary for target: $RUSTTARGET"
+rustup target add "$RUSTTARGET"
 cargo build --release --target "$RUSTTARGET"
 
 
